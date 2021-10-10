@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-template-load
+  labels:
+    app: go-template-load
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-template-load
+  template:
+    metadata:
+      labels:
+        app: go-template-load
+    spec:
+      containers:
+      - name: go-template-load
+        image: gbaeke/go-template:load
+        ports:
+        - containerPort: 8080

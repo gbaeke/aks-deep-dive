@@ -1,0 +1,12 @@
+apiVersion: not used
+kind: not used
+metadata:
+  name: not-used
+spec:
+  template:
+    spec:
+      containers:
+      - name: go-template-load
+        resources:
+          limits:
+            memory: "128Mi"
