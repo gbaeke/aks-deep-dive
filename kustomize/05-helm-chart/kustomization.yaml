@@ -1,0 +1,27 @@
+namespace: mygoapp
+
+resources:
+  - namespace.yaml
+  - debug-pod.yaml
+
+helmCharts:
+- name: go-template
+  repo: https://gbaeke.github.io/helm-chart
+  releaseName: mygoapp
+  valuesInline:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 64Mi
+      requests:
+        cpu: 100m
+        memory: 32Mi
+
+
+patches:
+- patch: |-
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: go-template-test-connection
+    $patch: delete
