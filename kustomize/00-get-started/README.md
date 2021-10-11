@@ -52,7 +52,7 @@ resources:
   - debug-pod.yaml
 ```
 
-Note that the original YAML files will not be modified. The original files do not include a namespace. So we have to added it to the `kustomization.yaml` file. Here is the original `service.yaml` without a namespace:
+Note that the original YAML files will not be modified. The original files do not include a namespace. So we have added it to the `kustomization.yaml` file. Here is the original `service.yaml` without a namespace:
 
 ```yaml
 kind: Service
@@ -71,11 +71,11 @@ spec:
 
 The only thing we need to do is to run `kustomize build` in the folder containing the `kustomization.yaml` file. The kustomize tool can be installed with package managers such as Brew and Chocolatey. For more information, see https://kubectl.docs.kubernetes.io/installation/kustomize/.
 
-You can also use Kustomize directly from `kubectl` it has Kustomize built-in. Depending on your version of `kubectl`, the version of `kustomize` will be different.
+You can also use Kustomize directly from `kubectl` because it has Kustomize built-in. Depending on your version of `kubectl`, the version of `kustomize` will be different.
 
 Depending on your tool of choice, you can run either of the following commands in the folder containing the `kustomization.yaml` file:
-- kustomize build
-- kubectl kustomize
+- `kustomize build`
+- `kubectl kustomize`
 
 The result of running either of the above commands, will be a larger YAML file with all the resources in the resources list with the namespace set to `loadgen`. Check the snippet below:
 
