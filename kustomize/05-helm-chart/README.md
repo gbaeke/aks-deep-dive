@@ -51,7 +51,7 @@ The result of the `kustomize build` command is a Kubernetes YAML file that conta
 - a deployment for go-template with the namespace added
 - a Pod used as a Helm test for the deployment
 
-**Note:** this Helm chart includes a test that checks that the deployment is running. Helm takes steps to ensure that the test is not run on a deployment that is not running. Kustomize, however, does not do this so it is likely that the test will fail. A Helm chart typically includes a field to turn off the test, which is preferrable with Kustomize. This Helm chart however, does not have this field. To remove the test pod entirely, a strategic merge patch is used:
+**Note:** this Helm chart includes a test that checks that the deployment is running. Helm takes steps to ensure that the test is not run on a deployment that is not running. Kustomize, however, does not do this so it is likely that the test will fail. A Helm chart typically includes a field to turn off the test, which is preferrable with Kustomize. This Helm chart however, does not have this field. To remove the test pod entirely, a strategic merge patch is used with a `delete` directive:
 
 ```yaml
 patches:

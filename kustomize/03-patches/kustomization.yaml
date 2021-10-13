@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: myns3
 
 namePrefix: dev-
-nameSuffix: -geba
 
 resources:
   - namespace.yaml
@@ -16,7 +15,7 @@ patchesStrategicMerge:
 patchesJson6902:
   - target:
       kind: Deployment
-      name: go-template-load
+      name: super-api
       version: v1
       group: apps
     path: patch.yaml

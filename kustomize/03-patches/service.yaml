@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name:  go-template-load
+  name:  super-api
 spec:
   selector:
-    app:  go-template-load
+    app:  super-api
   type:  ClusterIP
   ports:
   - name:  http

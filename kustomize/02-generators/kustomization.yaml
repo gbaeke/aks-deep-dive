@@ -34,7 +34,7 @@ configMapGenerator:
       note: api config
     labels:
       type: generated
-    disableNameSuffixHash: true
+    disableNameSuffixHash: false
 
 secretGenerator:
 - name: superapi-secret

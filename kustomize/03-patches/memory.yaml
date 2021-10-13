@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-template-load
+  name: super-api
 spec:
   template:
     spec:
       containers:
-      - name: go-template-load
+      - name: super-api
         resources:
           limits:
             memory: "128Mi"
