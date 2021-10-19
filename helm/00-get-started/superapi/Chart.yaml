@@ -2,18 +2,19 @@
 apiVersion: v2
 name: superapi
 version: 0.1.0
-description: A Helm chart for Kubernetes
 
 # default type is application (vs library)
 type: application
 
-# description of the chart
+# optional fields of the chart
+description: A Helm chart for Kubernetes
 appVersion: "1.16.0" # used as image tag if image tag is not specified
 keywords:
-    - api
-    - golang
+  - api
+  - golang
 home: https://github.com/gbaeke/super-api
-sources: https://github.com/gbaeke/super-api
+sources: 
+  - https://github.com/gbaeke/super-api
 icon: https://raw.githubusercontent.com/gbaeke/super-api/master/icon.png #png or svg
 maintainers:
   - name: Geert Baeke

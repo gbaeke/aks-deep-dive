@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "superapi.fullname" . }}
   labels:
-    {{- include "superapi.labels" . | nindent 4 }}
+    {{- include "superapi.labels" . | nindent 4}}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

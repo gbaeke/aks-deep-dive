@@ -1,0 +1,5 @@
+The output of this Helm chart cannot be submitted to Kubernetes.
+
+Here are all values:
+
+{{ .Values | toYaml | indent 2 }}

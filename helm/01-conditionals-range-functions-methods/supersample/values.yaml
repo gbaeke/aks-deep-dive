@@ -1,0 +1,17 @@
+listDomains: false
+listUtilities: true
+
+secretValue: "bigsecret"
+
+domains:
+  - baeke.info
+  - microsoft.com
+  - google.com
+
+utilities:
+  helm: "a YAML templating tool"
+  kustomize: "a tool to customize YAML without templates"
+
+moreProps:
+  prop1: value1
+  prop2: value2

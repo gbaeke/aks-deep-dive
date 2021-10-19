@@ -1,0 +1,4 @@
+apiVersion: v2
+name: supersample
+description: A Helm chart for Kubernetes
+version: 0.1.0

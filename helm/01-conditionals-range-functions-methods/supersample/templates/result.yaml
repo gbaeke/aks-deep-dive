@@ -1,0 +1,33 @@
+# YAML generated at {{ now }}
+# {{ title "hello world-" | trimSuffix "-"}}
+
+{{- if eq .Values.listDomains true }}
+domains:
+{{- range .Values.domains }}
+- {{ .  | quote }}
+{{- end }}
+{{- else }}
+domains: null
+{{- end }}
+
+{{- if .Values.listUtilities }}
+utilities:
+{{- range $key, $value := .Values.utilities }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- end }}
+
+{{- with .Values.moreProps }}
+moreProps:
+{{toYaml . | indent 2 }}
+{{- end }}
+
+tuple:
+{{- range tuple "one" "two" "three" }}
+- {{ . }}
+{{- end }}
+
+data: 
+  config.toml: |
+  {{- .Files.Get "config2.toml" | nindent 4}}
+
