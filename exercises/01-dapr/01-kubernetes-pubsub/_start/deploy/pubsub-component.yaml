@@ -1,0 +1,11 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub
+spec:
+  type: <SET PUBSUB TYPE TO AZURE SERVICE BUS>
+  version: v1
+  metadata:
+  # instead of using value, you can use a reference to a secret
+  - name: connectionString
+    value: <SB CONNECTION STRING>

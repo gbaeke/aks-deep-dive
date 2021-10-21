@@ -1,0 +1,20 @@
+resources:
+  - pubsub-sb.yaml
+  - pub.yaml
+  - sub.yaml
+
+namespace: default
+
+images:
+  - name: gbaeke/dapr-sub
+    newTag: 1.0.0
+  - name: gbaeke/dapr-pub
+    newTag: 1.0.0
+
+
+secretGenerator:
+  - name: pubsub-secret
+    literals:
+      - ServiceBus=<CONNSTR HERE>
+    options:
+      disableNameSuffixHash: true

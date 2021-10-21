@@ -1,0 +1,19 @@
+resources:
+  - <RESOURCES HERE>
+
+namespace: default
+
+# update images here or remove and just use image references in pod spec of pub and sub deployments
+images:
+  - name: gbaeke/dapr-sub
+    newTag: 1.0.0
+  - name: gbaeke/dapr-pub
+    newTag: 1.0.0
+
+# remove this if you do not use a secret reference in the component
+secretGenerator:
+  - name: pubsub-secret
+    literals:
+      - ServiceBus=<SB CONNECTION STRING>
+    options:
+      disableNameSuffixHash: true

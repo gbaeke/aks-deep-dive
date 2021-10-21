@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodepub
+  labels:
+    app: nodepub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodepub
+  template:
+    metadata:
+      labels:
+        app: nodepub
+    spec:
+      containers:
+      - name: node
+        # make sure you use your image here
+        image: gbaeke/dapr-pub
+        imagePullPolicy: Always
