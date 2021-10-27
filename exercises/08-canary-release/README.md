@@ -59,5 +59,5 @@ The end state is:
 - Revision 1 is scaled down
 - Revision 2 has two pods and is marked as stable
 
-
+If you want to know more about canary deployments with SMI traffic split, click [this link](manifests-smi/README.md)
 

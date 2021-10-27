@@ -14,7 +14,7 @@ Make sure you have the following prerequisites:
 - Dapr installed locally
 - .NET 5 SDK installed locally
 - Visual Studio Code with C# extension installed
-- HTTP Client Extension installed (to use the .http files to test endpoints)
+- VS Code HTTP Client Extension installed (to use the .http files to test endpoints)
 
 Now clone the repository to your local machine:
 
