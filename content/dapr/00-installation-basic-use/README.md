@@ -142,3 +142,5 @@ To see the value of the key, run `hgetall "myapp||course"`. The result:
 
 You have now successfully stored and retrieved state on your local machine. The above is a simple example of how to use Dapr on your local machine and you can use the same approach to test other components. In reality however, you will call the components from your application using either the HTTP or gRPC APIs.
 
+Further exploration:
+- [Service invocation](../01-service-invocation/README.md)
