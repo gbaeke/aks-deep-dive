@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: superapi
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       containers:
       - name: superapi
@@ -32,10 +34,12 @@ spec:
         - containerPort: 8080
   strategy:
     canary:
+      canaryService: superapi-canary
+      stableService: superapi-stable
+      trafficRouting:
+        smi:
+          rootService: superapi-svc
+          trafficSplitName: superapi-split
       steps:
       - setWeight: 10
       - pause: {}
-      - setWeight: 50
-      - pause: {duration: 10}
-      - setWeight: 90
-      - pause: {duration: 10}
