@@ -26,6 +26,8 @@ cd kubeview/charts
 helm install kubeview ./kubeview
 ```
 
+Kubeview will be installed in the default namespace. Use the external IP address of its service to view the UI. You can filter the UI on `superapi`.
+
 ## Deploy a rollout
 
 ⚠️ IMPORTANT: Argo Rollouts uses custom resource definitions; you need to make Kustomize aware of them by including a configuration as described here: https://argoproj.github.io/argo-rollouts/features/kustomize/
@@ -100,4 +102,3 @@ This will have the following result:
 Effectively, Argo Rollouts allows you to inspect the preview before calling `promote` on that. Now you can promote the rollout, which results in:
 - Revision 2 scaled down
 - Revision 3 is promoted to active and returns `Hello from blue`
-
