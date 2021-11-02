@@ -1,0 +1,7 @@
+# components.yaml for Azure Service Bus
+- name: pubsub
+  type: pubsub.azure.servicebus
+  version: v1
+  metadata:
+  - name: connectionString
+    value: Endpoint=sb://mynamespace14654.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=YOURKEY
