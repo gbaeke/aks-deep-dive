@@ -41,6 +41,8 @@ az containerapp env create \
   --location northeurope
 ```
 
+If you want to use the state example, skip the next steps until you arrive at **Saving State**.
+
 ## Create Azure Service Bus
 
 
@@ -80,7 +82,7 @@ az containerapp create \
   --dapr-components ./components.yaml
 ```
 
-## Create the subscripter container app
+## Create the subscriber container app
 
 ```
 az containerapp create \
@@ -104,3 +106,104 @@ az monitor log-analytics query \
   --analytics-query "ContainerAppConsoleLogs_CL | where ContainerAppName_s == 'daprsub' | project ContainerAppName_s, Log_s, TimeGenerated | take 5" \
   --out table
 ```
+
+# Saving state
+
+When you have deployed the Container Apps environment above, create a Cosmos DB account in the same resource group: rg-dapr.
+
+```
+uniqueId=$RANDOM
+az cosmosdb create \
+  --name dapr-cosmosdb-$uniqueId \
+  --resource-group rg-dapr \
+  --locations regionName='westeurope'
+```
+
+Next, create a SQL API database:
+
+```
+az cosmosdb sql database create \
+    -a dapr-cosmosdb-$uniqueId \
+    -g rg-dapr \
+    -n dapr-db
+```
+
+Then create a SQL API container:
+
+```
+az cosmosdb sql container create \
+    -a dapr-cosmosdb \
+    -g rg-dapr \
+    -d dapr-db \
+    -n statestore \
+    -p '/partitionKey' \
+    --throughput 400
+```
+
+Create a state store component for Cosmos DB:
+
+```yaml
+- name: statestore
+  type: state.azure.cosmosdb
+  version: v1
+  metadata:
+    - name: url
+      value: YOURURL
+    - name: masterkey
+      value: YOURMASTERKEY
+    - name: database
+      value: YOURDB
+    - name: collection
+      value: YOURCOLLECTION
+```
+
+Now create the container app that can write to Cosmos DB:
+
+```
+az containerapp create \
+  --name daprstate \
+  --resource-group rg-dapr \
+  --environment dapr-ca \
+  --image gbaeke/dapr-state:1.0.0 \
+  --min-replicas 1 \
+  --max-replicas 1 \
+  --enable-dapr \
+  --dapr-app-id daprstate \
+  --dapr-components ./components-cosmosdb.yaml \
+  --target-port 8080 \
+  --ingress external
+```
+
+**Note:** you can set a secret with the --secrets flag. E.g. `--secrets cosmosdb='cosmosdbkey`
+
+Now try to POST to the /state endpoint of the container app:
+
+```
+curl -v -XPOST -H "Content-type: application/json" -d '{ "key": "cool","data": "somedata"}' 'https://daprstate.wonderfulocean-fe839f0a.northeurope.azurecontainerapps.io/state'
+```
+
+This should give the following response:
+
+```
+Error writing to statestore: error saving state: rpc error: code = Internal desc = failed saving state in state store statestore: BadRequest, ConsistencyLevel Strong specified in the request is invalid when service is configured with consistency level Session. Ensure the request consistency level is not stronger than the service consistency level.
+```
+
+This is expected. The code in our container uses strong consistency, but the Cosmos DB service is configured with session consistency. Update the Cosmos DB service to use strong consistency and give it some time. When you try again, and you do not get an error, go to Cosmos DB data explorer and find key **daprstate||cool**. The document will resemble the following:
+
+```json
+{
+    "id": "daprstate||cool",
+    "value": "c29tZWRhdGE=",
+    "isBinary": true,
+    "partitionKey": "daprstate||cool",
+    "_rid": "+NBgAIpRabEBAAAAAAAAAA==",
+    "_self": "dbs/+NBgAA==/colls/+NBgAIpRabE=/docs/+NBgAIpRabEBAAAAAAAAAA==/",
+    "_etag": "\"8600584c-0000-0d00-0000-6181c76e0000\"",
+    "_attachments": "attachments/",
+    "_ts": 1635895150
+}
+```
+
+Note the value is base64 encoded. This is because Cosmos DB stores binary data as base64 encoded strings and the Dapr SDK uses byte arrays.
+
+If you would run the same code with Redis as the backend, Redis would store the data as the string "somedata".

@@ -1,0 +1,12 @@
+- name: statestore
+  type: state.azure.cosmosdb
+  version: v1
+  metadata:
+    - name: url
+      value: https://dapr-cosmosdb-20446.documents.azure.com:443/
+    - name: masterkey
+      secretRef: cosmosdb
+    - name: database
+      value: dapr-db
+    - name: collection
+      value: statestore

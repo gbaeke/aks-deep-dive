@@ -1,0 +1,19 @@
+kind: TrafficTarget
+apiVersion: access.smi-spec.io/v1alpha3
+metadata:
+  name: debug-access-superapi
+  namespace: osm-test
+spec:
+  destination:
+    kind: ServiceAccount
+    name: super-api
+    namespace: osm-test
+  rules:
+  - kind: HTTPRouteGroup
+    name: superapi-routes
+    matches:
+    - all
+  sources:
+  - kind: ServiceAccount
+    name: debug
+    namespace: osm-test

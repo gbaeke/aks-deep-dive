@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  super-api-svc
+spec:
+  selector:
+    app:  super-api
+  type:  ClusterIP
+  ports:
+  - name:  http
+    port:  80
+    targetPort:  8080

@@ -1,0 +1,10 @@
+apiVersion: specs.smi-spec.io/v1alpha4
+kind: HTTPRouteGroup
+metadata:
+  name: superapi-routes
+spec:
+  matches:
+  - name: all
+    pathRegex: ".*"
+    methods:
+    - GET
