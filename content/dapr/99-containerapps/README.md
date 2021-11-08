@@ -28,6 +28,15 @@ Retrieve workspace client ID and key:
 ```
 LOG_ANALYTICS_WORKSPACE_CLIENT_ID=`az monitor log-analytics workspace show --query customerId -g rg-dapr -n dapr-logs --out tsv`
 LOG_ANALYTICS_WORKSPACE_CLIENT_SECRET=`az monitor log-analytics workspace get-shared-keys --query primarySharedKey -g rg-dapr -n dapr-logs --out tsv`
+LOG_ANALYTICS_WORKSPACE_ID=`az monitor log-analytics workspace show --query id -g rg-dapr -n dapr-logs --out tsv`
+```
+
+If you want to use App Insights, use the following command:
+
+```
+az extension add -n application-insights
+az monitor app-insights component create --app daprApp --location northeurope --kind web -g rg-dapr --workspace $LOG_ANALYTICS_WORKSPACE_ID
+KEY=`az monitor app-insights component show --app daprApp -g rg-dapr --query instrumentationKey --out tsv`
 ```
 
 Create the Azure Container Apps environment:
@@ -40,6 +49,8 @@ az containerapp env create \
   --logs-workspace-key $LOG_ANALYTICS_WORKSPACE_CLIENT_SECRET \
   --location northeurope
 ```
+
+Optionally add instrumentation key to the environment with `--instrumentation-key $KEY`
 
 If you want to use the state example, skip the next steps until you arrive at **Saving State**.
 
@@ -132,7 +143,7 @@ Then create a SQL API container:
 
 ```
 az cosmosdb sql container create \
-    -a dapr-cosmosdb \
+    -a dapr-cosmosdb-$uniqueId \
     -g rg-dapr \
     -d dapr-db \
     -n statestore \
@@ -179,7 +190,7 @@ az containerapp create \
 Now try to POST to the /state endpoint of the container app:
 
 ```
-curl -v -XPOST -H "Content-type: application/json" -d '{ "key": "cool","data": "somedata"}' 'https://daprstate.wonderfulocean-fe839f0a.northeurope.azurecontainerapps.io/state'
+curl -v -XPOST -H "Content-type: application/json" -d '{ "key": "cool","data": "somedata"}' 'https://daprstate.jollymoss-4c97b64b.northeurope.azurecontainerapps.io/state'
 ```
 
 This should give the following response:
@@ -207,3 +218,9 @@ This is expected. The code in our container uses strong consistency, but the Cos
 Note the value is base64 encoded. This is because Cosmos DB stores binary data as base64 encoded strings and the Dapr SDK uses byte arrays.
 
 If you would run the same code with Redis as the backend, Redis would store the data as the string "somedata".
+
+# Application Map
+
+If you enable Application Insights, you can use the Application Map to see the container apps in the Azure portal:
+
+![appinsights](dapr-containerapp-insights.png)

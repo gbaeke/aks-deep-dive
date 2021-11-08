@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-init
+  labels:
+    name: simple-init
+spec:
+  restartPolicy: Never
+  initContainers:
+    - name: init-container1
+      image: busybox
+      command:
+        - sh
+        - -c
+        - echo "Hello from init container 1"
+    - name: init-container2
+      image: busybox
+      command:
+        - sh
+        - -c
+        - exit 1
+  containers:
+  - name: simple-init
+    image: nginx
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "100m"
+    ports:
+      - containerPort: 80

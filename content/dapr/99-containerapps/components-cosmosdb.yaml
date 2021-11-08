@@ -3,9 +3,9 @@
   version: v1
   metadata:
     - name: url
-      value: https://dapr-cosmosdb-20446.documents.azure.com:443/
+      value: "https://dapr-cosmosdb-28290-westeurope.documents.azure.com:443"
     - name: masterkey
-      secretRef: cosmosdb
+      value: rGANiQMSx6dVvYCgG9BxqnKgGGGjtNjwREIyoEtC0tSHNIMbKZhuUfb9dge0SxWkfryYnuM0WzH3bMgP1BSyzg==
     - name: database
       value: dapr-db
     - name: collection
