@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: topo-demo
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: topo-demo
+  template:
+    metadata:
+      labels:
+        app: topo-demo
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.azure.com/agentpool
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: topo-demo
+      containers:
+      - name: topo-demo
+        image: nginx
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80
