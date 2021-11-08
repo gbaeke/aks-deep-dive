@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodesel-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodesel-demo
+  template:
+    metadata:
+      labels:
+        app: nodesel-demo
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nodesel-demo
+        image: nginx
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80

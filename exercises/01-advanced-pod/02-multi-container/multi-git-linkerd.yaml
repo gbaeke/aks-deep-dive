@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-multi-deployment
+  labels:
+    app: nginx-multi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-multi
+  template:
+    metadata:
+      labels:
+        app: web-multi
+      annotations:
+        linkerd.io/inject: "enabled"
+        config.linkerd.io/proxy-cpu-limit: "0.5"
+        config.linkerd.io/proxy-memory-limit: 128Mi
+    spec:
+      volumes:
+        - name: webapp
+          emptyDir:
+            medium: Memory
+      initContainers:
+        - name: configure
+          image: alpine/git
+          volumeMounts:
+            - name: webapp
+              mountPath: /work
+          command:
+            - git
+            - clone
+            - https://github.com/gbaeke/static-web.git
+            - '/work'
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 100m
+      containers:
+        - name: pull
+          image: alpine/git
+          volumeMounts:
+            - name: webapp
+              mountPath: /work
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "cd /work; while true; do git pull; sleep 5; done;"
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 100m
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: webapp
+              mountPath: /usr/share/nginx/html            
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi

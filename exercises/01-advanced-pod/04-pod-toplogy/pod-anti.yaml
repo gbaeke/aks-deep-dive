@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-anti-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pod-anti-demo
+  template:
+    metadata:
+      labels:
+        app: pod-anti-demo
+    spec:
+      affinity:
+        podAntiAffinity:
+          # require scheduling pods on nodes that do not run any pod-anti-demo pods
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pod-anti-demo
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: pod-anti-demo
+        image: nginx
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80

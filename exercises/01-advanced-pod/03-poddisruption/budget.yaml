@@ -1,0 +1,10 @@
+# use policy/v1 in k8s 1.21+
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: web-multi-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: web-multi

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-multi-deployment
+  labels:
+    app: nginx-multi
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-multi
+  template:
+    metadata:
+      labels:
+        app: web-multi
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80           
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi

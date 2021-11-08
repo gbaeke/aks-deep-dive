@@ -12,7 +12,7 @@ spec:
       command:
         - sh
         - -c
-        - echo "Hello from init container 1"
+        - echo "Hello from init container 1 running in namespace $(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)"
     - name: init-container2
       image: busybox
       command:
