@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demoapp
+  namespace: argocd
+  annotations:
+    # only check for patch updates of 1.0
+    argocd-image-updater.argoproj.io/image-list: ghcr.io/gbaeke/super:~1.0
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+    # semver is the default strategy; others are latest and name
+    argocd-image-updater.argoproj.io/<image_name>.update-strategy: semver
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: course/overlays/prod
+    repoURL: https://github.com/gbaeke/argo-demo
+    targetRevision: HEAD
