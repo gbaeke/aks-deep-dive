@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: superapi
-        image: crazk8skjfsa6ufncm6ehkyi.azurecr.io/super:1.0.3
+        image: crazk8s3cy82igvnyizpshuk.azurecr.io/super:1.0.3
         resources:
           requests:
             memory: "128Mi"

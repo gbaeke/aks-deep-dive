@@ -1,0 +1,27 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  creationTimestamp: null
+  name: superapi.linkerdapp.svc.cluster.local
+  namespace: linkerdapp
+spec:
+  routes:
+  - condition:
+      method: GET
+      pathRegex: /healthz
+    name: GET /healthz
+    timeout: "10s"
+    responseClasses:
+    - condition:
+        status:
+          max: 200
+          min: 200
+  - condition:
+      method: GET
+      pathRegex: /readyz
+    name: GET /readyz
+    responseClasses:
+    - condition:
+        status:
+          max: 200
+          min: 200

@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: blobby
+spec:
+  type: bindings.azure.blobstorage
+  version: v1
+  metadata:
+  - name: storageAccount
+    value: daprbinding32483
+  - name: storageAccessKey
+    value: KEY
+  - name: container
+    value: container1 # does not have to exist beforehand
+  - name: decodeBase64
+    value: true

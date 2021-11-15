@@ -2,19 +2,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: superapi-ingress
-  namespace: sampleapp
   labels:
     name: superapi-ingress
+  namespace: linkerdapp
   annotations:
-    # specify the ingress-class as an annotation
-    # kubernetes.io/ingress.class: azure/application-gateway
-    # kubernetes.io/ingress.class: nginx
+    # add below line of nginx is meshed
+    # nginx.ingress.kubernetes.io/service-upstream: "true"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
 spec:
-  # even better is setting the class here
   ingressClassName: nginx
   rules:
-  # change IP with the IP of your ingress controller
-  - host: 20.61.239.192.nip.io
+  # update IP with your own IP used by Ingress Controller
+  - host: linkerd.51.105.216.200.nip.io
     http:
       paths:
       - pathType: Prefix

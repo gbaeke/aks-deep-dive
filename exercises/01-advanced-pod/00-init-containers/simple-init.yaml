@@ -5,7 +5,7 @@ metadata:
   labels:
     name: simple-init
 spec:
-  restartPolicy: Never
+  #restartPolicy: Never
   initContainers:
     - name: init-container1
       image: busybox

@@ -1,4 +1,4 @@
-# Pubsub on Kubernetes
+# Pubsub on Kubernetes exercise
 
 ## Running locally
 

@@ -4,6 +4,9 @@ metadata:
   name: debug
   labels:
     name: debug
+  annotations:
+        linkerd.io/inject: "enabled"
+  namespace: linkerdapp
 spec:
   containers:
   - name: debug

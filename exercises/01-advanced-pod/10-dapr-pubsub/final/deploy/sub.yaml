@@ -18,7 +18,6 @@ spec:
         dapr.io/app-id: "nodesub"
         dapr.io/app-port: "3000"
         dapr.io/log-level: "debug"
-        dapr.io/config: "zipkin"
     spec:
       containers:
       - name: node

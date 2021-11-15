@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mi-pod
+  namespace: default
+  labels:
+    name: mi-pod
+    aadpodidbinding: appid
+  annotations:
+    dapr.io/app-id: miapp
+    dapr.io/enabled: "true"
+spec:
+  containers:
+  - name: debug
+    image: praqma/network-multitool:latest
+    command:
+      - sleep
+      - "3600"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"

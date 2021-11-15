@@ -6,8 +6,6 @@ resources:
   - namespace.yaml
   - deployment.yaml
   - service.yaml
-  - ingress.yaml
-  - network-policy.yaml
   
 configMapGenerator:
 - name: superapi-config

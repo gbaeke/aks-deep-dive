@@ -16,7 +16,6 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "nodepub"
-        dapr.io/config: "zipkin"
     spec:
       containers:
       - name: node

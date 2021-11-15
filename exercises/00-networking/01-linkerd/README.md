@@ -29,7 +29,7 @@ linkerd install | kubectl apply -f -
 linkerd check
 ```
 
-Linkerd is now installed in the `linkerd` namespace.
+Linkerd is now installed in the `linkerd` namespace. Note that linkerd CLI has automatically generated a root certificate with a one year validity. In production, and when you install with Helm, this certificate should be created by you, preferably with a longer lifetime. See https://linkerd.io/2.11/tasks/generate-certificates/. The documentation uses `step` to generate a root certificate and an intermediate certificate.
 
 ## Install extensions
 
@@ -37,7 +37,12 @@ Linkerd comes with the `viz` extension. It installs a metric stack on your clust
 
 ```
 linkerd viz install | kubectl apply -f -
+linkerd viz check
 ```
+
+After installation, run `linkerd viz dashboard`
+
+⚠️ This might trigger AKS scale out. The most likely cause is that you hit the pod limit of 30. Give the cluster some time to scale out.
 
 After the installation, launch the Linkerd dashboard with `linkerd viz dashboard` and view the dashboard via the localhost URL.
 
@@ -102,3 +107,97 @@ The manifests folder contains `debug-pod.yaml`.
 - next to the `superapi` deployment, click the little `grafana` icon; you should see a Grafana dashboard for the deployment with traffic information as shown below
 
 ![linkerd-grafana](linkerd-grafana.png)
+
+## Service profile
+
+You can generate a service profile from the OpenAPI spec of `super-api`:
+
+```
+linkerd profile --open-api <swagger file> <servicename>
+```
+
+For example:
+
+```
+wget https://raw.githubusercontent.com/gbaeke/super-api/main/pkg/api/docs/swagger.json
+linkerd profile --open-api swagger.json superapi
+```
+
+This outputs the following profile:
+
+```yaml
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  creationTimestamp: null
+  name: superapi.sampleapp.svc.cluster.local
+  namespace: linkerdapp
+spec:
+  routes:
+  - condition:
+      method: GET
+      pathRegex: /healthz
+    name: GET /healthz
+    responseClasses:
+    - condition:
+        status:
+          max: 200
+          min: 200
+  - condition:
+      method: GET
+      pathRegex: /readyz
+    name: GET /readyz
+    responseClasses:
+    - condition:
+        status:
+          max: 200
+          min: 200
+```
+
+See https://linkerd.io/2.10/reference/service-profiles/ for the service profiles reference.
+
+Use the linkerd dashboard to view the routes specified in the service profile.
+
+## Add ingress
+
+Use `ingress.yaml` to add an ingress. Update the ingress class for your ingress and update the IP address in the nip.io domain.
+
+⚠️ If no Ingress Controller is installed, see [Ingress](ingress/README.md) and only use the install instructions.
+
+Generate some traffic with a tool look `ddosify` (see https://github.com/ddosify/ddosify)
+
+For example:
+
+```
+ddosify -t http://linkerd.20.73.120.87.nip.io/
+```
+
+If your ingress is unmeshed, the Linkerd dashboard shows the traffic as unmeshed. You will see source IP addresses of your ingress. If you use Application Gateway, you will see source IP addresses of the Application Gateway. If you use an in-cluster Ingress Controller like nging, you will see the nginx deployment.
+
+![unmeshed](ingress-unmeshed.png)
+
+## Using the CLI
+
+Use linkerd viz top:
+
+```
+linkerd viz top deployment/superapi --namespace default
+```
+
+Use linkerd viz routes:
+
+```
+linkerd routes deployment/superapi --namespace default
+```
+
+Use linkerd viz tap to see the traffic to the service in realtime:
+
+```
+linkerd viz tap deployment/superapi --namespace default
+```
+
+Use linkerd viz edges:
+
+```
+linkerd viz edges po -n default
+```

@@ -8,9 +8,7 @@ spec:
       app: superapi
   ingress:
   - from:
-    - podSelector:
+    - namespaceSelector: {}
+      podSelector:
         matchLabels:
-          name: debug
-    - ipBlock:
-        # cidr block of app gateway
-        cidr: 10.2.0.0/16
+          app.kubernetes.io/name: ingress-nginx
