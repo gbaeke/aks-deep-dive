@@ -1,0 +1,21 @@
+resources:
+  - ../../base
+  - pubsub-redis.yaml
+
+namespace: pubsub-dev
+
+# namePrefix: dev-
+
+configurations:
+  - kustomize-config.yaml
+
+images:
+  - name: gbaeke/dapr-sub
+    newTag: 1.0.0
+  - name: gbaeke/dapr-pub
+    newTag: 1.0.0
+
+secretGenerator:
+  - name: redis
+    literals:
+      - redis-password=somepassword

@@ -2,6 +2,16 @@
 
 ## AAD Pod Identity
 
+This exercise uses AAD Pod Identity to allow the Dapr sidecar to access Key Vault with a user-assigned identity. The identity is assigned to the pod that runs your app and the side car. The app in this case is just a container that allows use to use curl with the sidecar.
+
+This requires the following:
+- cluster with AAD Pod Identity enabled
+- Key Vault installed
+- Dapr installed with an Azure Key Vault component that only contains the name of the Key Vault (security principal not required because we will use pod identity)
+- An Azure managed identity that can read secrets in the Key Vault
+- A pod identity at the K8S level that uses the Azure managed identity
+- A pod configured to use the pod identity when an application requests a token from Azure AD
+
 To enabled AAD Pod Identity via the add-on, do the following:
 
 ```

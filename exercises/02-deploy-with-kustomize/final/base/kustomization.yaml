@@ -1,0 +1,12 @@
+resources:
+  - pub.yaml
+  - sub.yaml
+  - namespace.yaml
+
+namespace: pubsubdemo
+
+images:
+  - name: gbaeke/dapr-sub
+    newTag: 1.0.0
+  - name: gbaeke/dapr-pub
+    newTag: 1.0.0

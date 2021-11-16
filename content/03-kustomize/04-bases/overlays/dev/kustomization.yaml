@@ -18,5 +18,4 @@ replicas:
 
 images:
 - name: ghcr.io/gbaeke/super
-  newName: ghcr.io/gbaeke/super
-  newTag: "10000"
+  newTag: 2.0.0

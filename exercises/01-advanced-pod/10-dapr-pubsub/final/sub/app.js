@@ -7,6 +7,8 @@ const app = express();
 app.use(bodyParser.json({ type: 'application/*+json' }));
 
 const port = 3000;
+const pubsubName = process.env.PUBSUB_NAME || "pubsub";
+const topicName = process.env.TOPIC_NAME || "sampletopic";
 
 // tell Dapr what we want to subscribe to
 // Dapr does a GET to /dapr/subscribe to find out
@@ -14,9 +16,9 @@ app.get('/dapr/subscribe', (_req, res) => {
     console.log("dapr called /dapr/subscribe")
     res.json([
         {
-            "topic": "sampletopic",
+            "topic": topicName,
             "route": "sampler",
-            "pubsubname": "pubsub"
+            "pubsubname": pubsubName
         }
 
     ]);

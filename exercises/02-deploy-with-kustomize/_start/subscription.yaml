@@ -1,0 +1,10 @@
+apiVersion: dapr.io/v1alpha1
+kind: Subscription
+metadata:
+  name: sb-sub
+spec:
+  topic: sampletopic
+  route: /sampler
+  pubsubname: pubsub
+scopes:
+- nodesub

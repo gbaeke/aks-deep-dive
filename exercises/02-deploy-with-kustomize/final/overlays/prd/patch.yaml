@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodepub
+spec:
+  template:
+    spec:
+      containers:
+      - name: node
+        env:
+        - name: PUBSUB_NAME
+          value: $(PUBSUBNAME)

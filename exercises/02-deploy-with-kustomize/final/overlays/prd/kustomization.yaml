@@ -1,0 +1,45 @@
+resources:
+  - ../../base
+  - pubsub-sb.yaml
+
+namespace: pubsub-prd
+
+# using this would change the name of the component
+# component reference is hardcoded in pub and sub code
+namePrefix: prd-
+
+# do not put this in the base -will not work
+configurations:
+  - kustomize-config.yaml
+
+images:
+  - name: gbaeke/dapr-sub
+    newTag: 1.0.1
+  - name: gbaeke/dapr-pub
+    newTag: 1.0.1
+
+vars:
+  - name: PUBSUBNAME
+    objref:
+      kind: Component
+      apiVersion: dapr.io/v1alpha1
+      name: pubsub
+    fieldref:
+      fieldpath: metadata.name
+
+secretGenerator:
+  - name: pubsub-secret
+    literals:
+      - ServiceBus=Endpoint=sb://mynamespace12503.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=KOPZhEJTSVNzROA/0qxgr5y5nwDoGOgSpgHqPTwLQpE=
+    options:
+      # we can enable the suffix hash because of the configuration above; same as leaving the line out
+      disableNameSuffixHash: false
+
+patches:
+  - path: patch.yaml
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      # apply to all deployments starting with node
+      name: node.*
