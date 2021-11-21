@@ -41,7 +41,7 @@ Next:
 - if you use a secretGenerator, by default it will generate a secret with a random name; that name needs to be updated in the Dapr Component but Kustomize does not know how to do that
   - **Solution**: use `configurations` in your `kustomization.yaml` file; see `kustomize-config.yaml`
 - if you use a `namePrefix`, that changes the name of the `Component`; in this case, the component name is hardcoded in the code; one solution would be to supply the component name via an environment variable and use a `patch` to supply this value
-  - in the `final/overlays/prd` you will find an example of retrieving the transformed component name and setting it in a variable; a patch then uses that variable to add an environment variable to the `publisher` pod; of course, the code will still not work because it does not use the environment variable 😉
+  - in the `final/overlays/prd` you will find an example of retrieving the transformed component name and setting it in a variable; a patch then uses that variable to add an environment variable to the `publisher` pod; image tags 1.0.1 use the environment variable `PUBSUB_NAME`
 
 
 

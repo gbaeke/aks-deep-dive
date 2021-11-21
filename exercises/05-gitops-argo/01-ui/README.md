@@ -16,7 +16,7 @@ To access the API server with the CLI, do one of the following:
 
 Using the latter option, the API server can be accessed via `http://localhost:8080`
 
-Before we can login, retrieve the generated admin account apssword:
+Before we can login, retrieve the generated admin account password:
 
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d

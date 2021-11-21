@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: success-rate
+spec:
+  args:
+  - name: service-name
+  metrics:
+  - name: success-rate
+    interval: 1m
+    successCondition: result[0] >= 0.95
+    failureLimit: 3
+    provider:
+      prometheus:
+        address: http://prometheus.linkerd-viz:9090
+        query: sum(irate(response_total{dst_service="{{args.service-name}}",status_code!~"5.*"}[1m])) / sum(irate(request_total{dst_service="{{args.service-name}}"}[1m]))

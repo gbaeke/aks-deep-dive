@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "superapi.fullname" . }}-post-install"
+  labels:
+    {{- include "superapi.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-1"
+    #"helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ["/bin/sleep","{{ default "10" .Values.sleepTime }}"]
+  restartPolicy: Never

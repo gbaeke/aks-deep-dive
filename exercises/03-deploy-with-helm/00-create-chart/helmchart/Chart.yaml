@@ -1,0 +1,16 @@
+apiVersion: v2
+name: superapi
+description: A Helm chart for Kubernetes
+
+# optional
+kubeVersion: ">=1.20"
+
+type: application
+version: 0.1.0
+# best practice to quote appVersion; helm create does this automatically
+appVersion: "1.0.2"
+
+dependencies:
+    - name: nginx
+      version: ~9.5.13
+      repository: https://charts.bitnami.com/bitnami

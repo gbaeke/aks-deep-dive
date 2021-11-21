@@ -21,7 +21,7 @@ From the `manifests-smi` folder, run `kubectl apply -k .` This does the followin
 - create both the canary and stable service
     - they both point to the same pods
 - create the root service (service.yaml): this is optional; otherwise the stable service is the root service; the root service is where you send traffic to and, depending on the traffic split, it will route traffic to the canary or stable service
-- create a resource of type TrafficSplit with name `superapi`: it will contain the canary and stable services, the % of traffic for each and the root service
+- create a resource of type TrafficSplit with name `superapi`: it will contain the canary and stable services, the % of traffic for each and the root service; the `TrafficSplit` resources is created by Argo Rollouts
 
 The TrafficSplit resource will have the following in the spec:
 
@@ -52,7 +52,7 @@ How to verify the traffic split?
 - Use `kubectl exec -it -c debug debug -- sh` to get a shell to the debug container in the debug pod
 - Run `while true; do curl http://superapi-svc; done`: you will see mostly `Hello from v1` responses
 
-⚠️ Important: for the split to work, traffic needs to originate from a `meshed` pod; in other words, the pod needs to have the linkerd proxy injected.
+⚠️ Important: for the split to work, traffic needs to originate from a `meshed` pod; in other words, the pod needs to have the linkerd proxy injected
 
 If you run `linkerd viz dashboard` and find the Traffic Split in the `rollout-smi` namespace, you should see the split with the RPS (requests per second) of the canary at roughly 10% of the RPS of the stable service.
 

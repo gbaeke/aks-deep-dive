@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: debug
-  namespace: rollout-smi
+  namespace: rollout-exp
   labels:
     name: debug
   annotations:

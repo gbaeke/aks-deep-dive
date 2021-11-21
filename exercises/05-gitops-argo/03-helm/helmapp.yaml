@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helmapp
+  namespace: argocd
+spec:
+  destination:
+    name: ''
+    namespace: helmtest
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://gbaeke.github.io/helm-chart'
+    targetRevision: 0.1.0
+    chart: go-template
+  project: default

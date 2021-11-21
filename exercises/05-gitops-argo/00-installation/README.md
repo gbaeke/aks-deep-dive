@@ -10,7 +10,7 @@ kind: Kustomization
 
 namespace: argocd
 resources:
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/ha/install.yaml
+- https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/install.yaml
 ```
 
 Save the above file and install with `kubectl apply -k .`
