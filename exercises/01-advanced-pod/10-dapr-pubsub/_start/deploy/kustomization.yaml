@@ -1,5 +1,7 @@
 resources:
-  - <RESOURCES HERE>
+  - pub.yaml
+  - sub.yaml
+  - pubsub-component.yaml
 
 namespace: default
 
