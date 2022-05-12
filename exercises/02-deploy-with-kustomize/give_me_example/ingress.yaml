@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: superapi-ingress
+  labels:
+    name: superapi-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+spec:
+  ingressClassName: nginx
+  rules:
+  # update IP with your own IP used by Ingress Controller
+  - host: linkerd.51.105.216.200.nip.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: superapi
+            port: 
+              number: 80

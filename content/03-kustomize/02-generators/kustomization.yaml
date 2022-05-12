@@ -25,7 +25,7 @@ configMapGenerator:
   files:
     - config.toml
   literals:
-    - WELCOME=Hello V2
+    - WELCOME=Hello V3
     - PORT=8080
   envs:
     - myenvfile.env

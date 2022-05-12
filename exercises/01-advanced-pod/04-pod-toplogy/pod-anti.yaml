@@ -15,6 +15,7 @@ spec:
       affinity:
         podAntiAffinity:
           # require scheduling pods on nodes that do not run any pod-anti-demo pods
+          # other option: preferredDuringSchedulingIgnoredDuringExecution
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
