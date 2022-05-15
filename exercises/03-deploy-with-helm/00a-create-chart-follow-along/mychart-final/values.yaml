@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/gbaeke/super
+  pullPolicy: IfNotPresent
+  tag: ""
+
+resources: {}
+  # limits:
+  #   cpu: "20m"
+  #   memory: "55M"
+
+config:
+  enabled: false
+  welcome: "Welcome to Super API v2"

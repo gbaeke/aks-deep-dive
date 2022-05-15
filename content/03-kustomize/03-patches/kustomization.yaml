@@ -12,10 +12,7 @@ resources:
 patchesStrategicMerge:
   - memory.yaml
   
-patchesJson6902:
-  - target:
-      kind: Deployment
-      name: super-api
-      version: v1
-      group: apps
-    path: patch.yaml
+
+replicas:
+  - name: super-api
+    count: 5

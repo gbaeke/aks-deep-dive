@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  superapi-deployment
+  labels:
+    app: superapi
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: superapi
+  template:
+    metadata:
+      labels:
+        app:  superapi
+      annotations:
+        confighash: {{ toString .Values.config | sha256sum  }}
+    spec:
+      restartPolicy: Always
+      containers:
+      - image:  "{{.Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: Always
+        name:  superapi
+        resources: 
+          {{- toYaml .Values.resources | nindent 12 }}          
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        env:
+        {{- if .Values.config.enabled }}
+        - name:  WELCOME
+          valueFrom:
+            configMapKeyRef:
+              name: superapi-config
+              key: welcome
+        {{- end }}
+        - name: PORT
+          value: "8080"      
+        ports:
+        - containerPort:  8080
+          name:  http

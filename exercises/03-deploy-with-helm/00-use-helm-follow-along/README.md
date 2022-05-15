@@ -64,7 +64,11 @@ Let's install version 1.0.7 of the super-api application.
 helm upgrade --install super-api super-api/super-api --namespace super-api --set image.tag=1.0.7
 ```
 
-Instead of `--set` you can use
+Instead of `--set` you can use a values file:
+
+```bash
+helm upgrade --install super-api super-api/super-api --namespace super-api --values myvalues.yaml
+```
 
 ## Get information about the release
 
@@ -100,3 +104,19 @@ REVISION        UPDATED                         STATUS          CHART           
 3               Thu May 12 17:27:00 2022        deployed        super-api-1.0.0 1.0.3           Rollback to 1
 ```
 
+## Other useful commands
+
+```
+# pull a chart from a repository
+helm pull super-api/super-api
+
+# download the chart as a .tgz file
+helm fetch super-api/super-api 
+
+# use --untar with either helm fetch or helm pull to extract the chart
+helm fetch super-api/super-api --untar
+
+# run helm lint on the extracted chart
+helm lint super-api
+
+```

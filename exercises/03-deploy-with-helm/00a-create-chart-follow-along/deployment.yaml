@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  superapi-deployment
+  labels:
+    app: superapi
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: superapi
+  template:
+    metadata:
+      labels:
+        app:  superapi
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: ghcr.io/gbaeke/super:1.0.7
+        imagePullPolicy: Always
+        name:  superapi
+        resources:
+          limits:
+            cpu: "20m"
+            memory: "55M"          
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 90
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        env:
+        - name:  WELCOME
+          value: "Hello from superapi deployed by Helm"
+        - name: PORT
+          value: "8080"      
+        ports:
+        - containerPort:  8080
+          name:  http

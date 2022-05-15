@@ -1,0 +1,9 @@
+{{- if .Values.config.enabled -}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: superapi-config
+  namespace: default
+data:
+  welcome: {{ .Values.config.welcome | upper | quote }} # Welcome message
+{{- end -}}
