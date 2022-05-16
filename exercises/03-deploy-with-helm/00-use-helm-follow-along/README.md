@@ -107,14 +107,12 @@ REVISION        UPDATED                         STATUS          CHART           
 ## Other useful commands
 
 ```
-# pull a chart from a repository
-helm pull super-api/super-api
 
 # download the chart as a .tgz file
-helm fetch super-api/super-api 
+helm pull super-api/super-api 
 
-# use --untar with either helm fetch or helm pull to extract the chart
-helm fetch super-api/super-api --untar
+# use --untar with either helm to also extract the chart
+helm pull super-api/super-api --untar
 
 # run helm lint on the extracted chart
 helm lint super-api

@@ -14,3 +14,4 @@ sources:
 - https://github.com/gbaeke/super-api
 type: application
 version: 1.0.0
+kubeVersion: "<=1.20"

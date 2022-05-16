@@ -1,0 +1,6 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/gbaeke/super
+  pullPolicy: IfNotPresent
+  tag: ""
