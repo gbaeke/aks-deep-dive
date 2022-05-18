@@ -3,7 +3,10 @@
 Enable the secret store CSI driver with `az aks enable-addons`:
 
 ```bash
-az aks enable-addons --addons=azure-keyvault-secrets-provider --name=<CLUSTER> --resource-group=<RESOURCE-GROUP>
+RG=rg-course
+CLUSTER=clu-pub
+
+az aks enable-addons --addons=azure-keyvault-secrets-provider --name=$CLUSTER --resource-group=$RG
 ```
 
 If you enabled the provider during installation, you will get a message that states it is already installed.
