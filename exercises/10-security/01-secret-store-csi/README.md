@@ -3,8 +3,8 @@
 Enable the secret store CSI driver with `az aks enable-addons`:
 
 ```bash
-RG=rg-course
-CLUSTER=clu-pub
+RG=lab-user-00-rg
+CLUSTER=clu-00
 
 az aks enable-addons --addons=azure-keyvault-secrets-provider --name=$CLUSTER --resource-group=$RG
 ```
@@ -19,10 +19,8 @@ Use the following commands to create an Azure Key Vault and a secret:
 
 ```bash
 KV=geba$RANDOM
-RG=rg-course
 SECRET=demosecret
 VALUE=demovalue
-CLUSTER=clu-pub
 
 # create the key vault and turn on Azure RBAC; we will grant a managed identity access to
 # this key vault below
